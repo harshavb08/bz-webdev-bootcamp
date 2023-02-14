@@ -1,0 +1,22 @@
+body {
+    background-color: whitesmoke;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #191818;
+    margin: 10px;
+    padding: 30px;
+}
+
+a {
+    color: #1a1818;
+    text-decoration: underline;
+}
+
+.col-4 .col-8 .col-12 {
+    margin: 30px;
+}
+
+.b2 {
+    padding-left: 40px
+}
