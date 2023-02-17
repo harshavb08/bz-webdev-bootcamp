@@ -15,20 +15,68 @@
     <div class="container">
         <div class="card">
             <div class="img-field">
-                <img src="https://i.scdn.co/image/ab67616d0000b2737a480bacc8280c9beeab849c" alt="img1">
+                <div id="song-image"></div>
             </div>
-            <h2>Mental Madhilo</h2>
-            <h4>A.R. Rahman, Jonita Gandhi</h4>
+            <h2 id="song-title"></h2>
+            <h4 id="song-artist"></h4>
             <hr>
-            <h3><i class="bi bi-skip-start-circle-fill"></i> <i class="bi bi-pause-circle-fill"></i> <i class="bi bi-skip-end-circle-fill"></i></h3>
+            <h3><i class="bi bi-skip-start-circle-fill" onclick="prevSong()"></i> <i class="bi bi-pause-circle-fill"></i> <i class="bi bi-skip-end-circle-fill" onclick="nextSong()"></i></h3>
         </div>
-        <button class="tog-btn">
+        <button class="tog-btn" onclick="suffleSong()">
             <i class="bi bi-shuffle"></i> SUFFLE
         </button>
     </div>
     <div class="footer">
         <p>Made with ❤️ by <a href="https://harshaz.live/">Harshavardhan Bammidi</a></p>
     </div>
+    <script>
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        const url = "https://fair-gray-lovebird.cyclic.app/songsApi/";
+        var data;
+        var index;
+        getSongsFromApi(url);
+
+        function prevSong() {
+            if (index == 0) {
+                index = data.length - 1;
+            } else {
+                index--;
+            }
+            document.getElementById("song-image").innerHTML = `<img src="${data[index].songImage}" alt="img1">`;
+            document.getElementById("song-title").innerHTML = data[index].songName;
+            document.getElementById("song-artist").innerHTML = data[index].songArtist;
+        }
+
+        function nextSong() {
+            if (index == data.length - 1) {
+                index = 0;
+            } else {
+                index++;
+            }
+            document.getElementById("song-image").innerHTML = `<img src="${data[index].songImage}" alt="img1">`;
+            document.getElementById("song-title").innerHTML = data[index].songName;
+            document.getElementById("song-artist").innerHTML = data[index].songArtist;
+        }
+
+        function suffleSong() {
+            index = getRndInteger(0, data.length);
+            document.getElementById("song-image").innerHTML = `<img src="${data[index].songImage}" alt="img1">`;
+            document.getElementById("song-title").innerHTML = data[index].songName;
+            document.getElementById("song-artist").innerHTML = data[index].songArtist;
+        }
+
+        async function getSongsFromApi(url) {
+            const response = await fetch(url);
+            data = await response.json();
+            console.log(data);
+            index = getRndInteger(0, data.length);
+            document.getElementById("song-image").innerHTML = `<img src="${data[index].songImage}" alt="img1">`;
+            document.getElementById("song-title").innerHTML = data[index].songName;
+            document.getElementById("song-artist").innerHTML = data[index].songArtist;
+        }
+    </script>
 </body>
 
 </html>

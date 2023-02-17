@@ -3,6 +3,7 @@ const userLib = require("./backend/lib/userLib");
 const songsLib = require("./backend/lib/songsLib");
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require("cors");
 
 
 const app = express();
@@ -10,6 +11,7 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use(express.static(__dirname + '/public'));
 
@@ -28,6 +30,7 @@ app.get('/card', function(req, res) {
 app.get('/musicPlayer', function(req, res) {
     res.sendFile(__dirname + '/musicPlayer.html');
 });
+
 
 app.use('/songsApi', songsLib)
 
