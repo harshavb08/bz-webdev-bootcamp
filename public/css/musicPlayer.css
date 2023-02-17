@@ -25,8 +25,8 @@ a {
 }
 
 .card {
-    background-color: #1b1b1b;
-    border-radius: 7px;
+    background-color: #2b2b2b;
+    border-radius: 8px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     padding: 20px 20px;
     justify-content: center;
