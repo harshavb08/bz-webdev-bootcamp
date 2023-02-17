@@ -20,7 +20,7 @@
             <h2 id="song-title"></h2>
             <h4 id="song-artist"></h4>
             <hr>
-            <h3><i class="bi bi-skip-start-circle-fill" onclick="prevSong()"></i> <i class="bi bi-pause-circle-fill"></i> <i class="bi bi-skip-end-circle-fill" onclick="nextSong()"></i></h3>
+            <h3><i class="bi bi-skip-start-circle-fill" onclick="prevSong()"></i> <i class="bi bi-pause-circle-fill" onclick="pause()" id="pause-btn"></i> <i class="bi bi-skip-end-circle-fill" onclick="nextSong()"></i></h3>
         </div>
         <button class="tog-btn" onclick="suffleSong()">
             <i class="bi bi-shuffle"></i> SUFFLE
@@ -37,6 +37,15 @@
         var data;
         var index;
         getSongsFromApi(url);
+
+        function pause() {
+            var state = document.getElementById("pause-btn").className;
+            if (state == "bi bi-pause-circle-fill") {
+                document.getElementById("pause-btn").className = "bi bi-play-circle-fill";
+            } else {
+                document.getElementById("pause-btn").className = "bi bi-pause-circle-fill";
+            }
+        }
 
         function prevSong() {
             if (index == 0) {
