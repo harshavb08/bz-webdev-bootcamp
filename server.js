@@ -31,6 +31,10 @@ app.get('/musicPlayer', function(req, res) {
     res.sendFile(__dirname + '/musicPlayer.html');
 });
 
+app.get('/weatherApp', function(req, res) {
+    res.sendFile(__dirname + '/weatherApp.html');
+});
+
 
 app.use('/songsApi', songsLib)
 

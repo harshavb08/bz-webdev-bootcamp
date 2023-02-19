@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <title>Weather App</title>
+    <style>
+        body {
+            background-image: url("https://www.10wallpaper.com/wallpaper/2560x1600/1604/Cartoon_clouds_blue_sky-Vector_Art_Design_HD_Wallpaper_2560x1600.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        #headingApp {
+            color: white;
+        }
+        
+        #inputbox {
+            max-width: 40vw;
+        }
+        
+        .weather-card {
+            min-width: 200px;
+            max-width: 400px;
+            -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+            background-color: rgba(255, 255, 255, 0.885);
+        }
+        
+        #loading {
+            visibility: hidden;
+        }
+        
+        #weatherCard {
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="inputbox" class="container">
+        <h1 id="headingApp" class="text-center">Weather App <i class="bi bi-cloud-sun-fill"></i></h1>
+        <div class="input-group mb-3 mt-5">
+            <input id="searchbox" type="text" class="form-control" placeholder="Type a City Name">
+            <button class="btn btn-outline-light" type="button" id="searchbutton"><i class="fas fa-search fa fa-fw">
+            </i></button>
+        </div>
+        <div class="spinner-border text-bg-light mt-5" id="loading" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div id="weatherCard" class="card weather-card mb-5">
+
+            <div class="card-title text-center mt-3">
+                <h4 id="city">Delhi</h4>
+                <h6 id="date">Fri Feb 17 2023</h6>
+            </div>
+
+            <img id="cardimage" src="..." class="card-img-top" alt="images/clouds.jpg">
+
+            <div class="card-body">
+                <h6 id="temp" class="display-4 font-weight-bold text-center">13°C</h6>
+                <h6 id="feellike" class="display-6 font-weight-bold text-center">(Feels like 13°C)</h6>
+                <h6 id="weather" class="display-7 text-center">Haze</h6>
+                <h5 id="minmaxtemp" class="text-center">25°C(min)/26°C(max)</h5>
+            </div>
+
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                  More Information
+                </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <ul class="list-group">
+                                <li id="humidity" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Humidity</span> 53
+                                </li>
+                                <li id="pressure" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Pressure</span> 1018
+                                </li>
+                                <li id="visibility" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Visibility</span> 2109
+                                </li>
+                                <li id="windspeed" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Windspeed</span> 2.20
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script>
+    const weatherApi = {
+        key: "eb7a2d4a5a9b284fe54b7bb547238443",
+        baseUrl: "https://api.openweathermap.org/data/2.5/weather",
+    }
+    const searchbox = document.getElementById("searchbox");
+    searchbox.addEventListener("keypress", function(event) {
+
+        if (event.keyCode === 13) {
+            if (searchbox.value === "") {
+                alert("Please enter a city name");
+            } else {
+                getWeatherReport(searchbox.value)
+            }
+        }
+    })
+
+    const searchbutton = document.getElementById("searchbutton");
+    searchbutton.addEventListener("click", function() {
+        if (searchbox.value === "") {
+            alert("Please enter a city name");
+        } else {
+            getWeatherReport(searchbox.value)
+        }
+    })
+
+    const loader = document.getElementById("loading");
+    const weatherCard = document.getElementById("weatherCard");
+
+    function showLoadingSpinner() {
+        loader.style.visibility = "visible";
+        setTimeout(() => {
+            loader.style.visibility = "hidden";
+        }, 2000)
+    }
+
+    function hideLoadingSpinner() {
+        loader.style.visibility = "hidden";
+    }
+
+
+
+    function getWeatherReport(city) {
+        //  https://api.openweathermap.org/data/2.5/weather?q=cityName&appid=eb7a2d4a5a9b284fe54b7bb547238443&unit=metric
+        showLoadingSpinner();
+        document.getElementById("date");
+        fetch(`${weatherApi.baseUrl}?q=${city}&appid=${weatherApi.key}&units=metric`)
+            .then(function(response) {
+                return response.json()
+            })
+            .then(function(response) {
+                hideLoadingSpinner();
+                if (response.cod === "404") {
+                    alert("Please Enter a valid City name");
+                } else {
+                    showWeatherReport(response);
+                    weatherCard.style.visibility = "visible";
+                }
+
+            })
+            .catch(function(err) {
+                console.log(err)
+            })
+        document.getElementById("searchbox").value = "";
+    }
+
+    function showWeatherReport(currentWeather) {
+        let city = document.getElementById("city");
+        let currentDate = document.getElementById("date");
+        let cardimage = document.getElementById("cardimage");
+        let temp = document.getElementById("temp");
+        let feellike = document.getElementById("feellike");
+        let weather = document.getElementById("weather");
+        let minmaxtemp = document.getElementById("minmaxtemp");
+        let humidity = document.getElementById("humidity");
+        let pressure = document.getElementById("pressure");
+        let visibility = document.getElementById("visibility");
+        let windspeed = document.getElementById("windspeed");
+
+        city.innerHTML = currentWeather.name;
+        let todayDate = new Date().toDateString();
+        currentDate.innerHTML = todayDate;
+        cardimage.src = manageImage(currentWeather.weather[0].main);
+
+        temp.innerHTML = Math.round(currentWeather.main.temp) + "°C"
+        feellike.innerHTML = `(Feels like ${Math.round(currentWeather.main.feels_like)}°C)`
+        weather.innerHTML = currentWeather.weather[0].main;
+        minmaxtemp = `${Math.floor(currentWeather.main.temp.min)}°C(min)/${Math.floor(currentWeather.main.temp.max)}°C(max)`
+        humidity.innerHTML = `<span>Humidity </span> ${currentWeather.main.humidity}`
+        pressure.innerHTML = `<span>Pressure </span> ${currentWeather.main.pressure}`
+        visibility.innerHTML = `<span>Visibility </span> ${currentWeather.visibility}`
+        windspeed.innerHTML = `<span>Wind Speed </span> ${currentWeather.wind.speed}`
+    }
+
+    function manageImage(weatherType) {
+        if (weatherType === 'Clear') {
+
+            return "https://cdn.pixabay.com/photo/2018/08/06/22/55/sun-3588618__480.jpg"
+
+        } else if (weatherType === 'Smoke') {
+
+            return "https://t3.ftcdn.net/jpg/05/12/26/74/360_F_512267433_FL8RR0lIaLxB8WdVYiFCvMNUPhxk0t6Y.jpg"
+
+        } else if (weatherType === 'Haze') {
+
+            return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX0dtrjifP8u9KaZbe6rEcplcSuwgpVfT1cg&usqp=CAU"
+
+        } else if (weatherType === 'Rain') {
+
+            return "https://media.istockphoto.com/id/453684353/photo/rain-at-the-fields.jpg?b=1&s=170667a&w=0&k=20&c=147NjI_RmTLGqA9xC4OI6HbyPiNACzALOmwot_zm0d8="
+
+        } else if (weatherType === 'Snow') {
+
+            return "https://img.freepik.com/free-vector/snow-winter-background-sky-landscape-with-cold-cloud-blizzard-stylized-blurred-snowflakes-snowdrift-realistic-style_333792-43.jpg"
+
+        } else if (weatherType === 'Thunderstorm') {
+
+            return "https://media.istockphoto.com/id/517643357/photo/thunderstorm-lightning-with-dark-cloudy-sky.jpg?b=1&s=170667a&w=0&k=20&c=MWIkaiUFGrpmwgODsLJH1qi3yEPb_PQFJwn0ewPaC6o="
+
+        } else if (weatherType === "Mist") {
+
+            return "https://thumbs.dreamstime.com/b/mountain-landscape-morning-mist-blue-sky-background-92286972.jpg"
+
+        } else if (weatherType === "Clouds") {
+
+            return "https://images.pexels.com/photos/53594/blue-clouds-day-fluffy-53594.jpeg?cs=srgb&dl=pexels-pixabay-53594.jpg&fm=jpg"
+
+        } else {
+            return "https://cdn.pixabay.com/photo/2018/08/06/22/55/sun-3588618__480.jpg"
+        }
+    }
+</script>
+</body>
+
+</html>
