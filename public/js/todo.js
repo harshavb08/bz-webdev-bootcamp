@@ -253,7 +253,7 @@ async function getAllDeletedTodos() {
             inputItem.value = "";
             inputItem.id = `Checkbox${index}`
             inputItem.setAttribute("checked", "true")
-            inputItem.setAttribute("onclick", `setUncheck("${el._id}")`)
+            inputItem.setAttribute("onclick", `setUnDelete("${el._id}")`)
 
 
 
@@ -273,9 +273,9 @@ async function getAllDeletedTodos() {
             listItem.classList.add("list-group-item")
             listItem.classList.add("my-list-item")
 
-            listItem.appendChild(inputItem);
+            //listItem.appendChild(inputItem);
             listItem.appendChild(labelItem);
-            listItem.appendChild(buttonItem);
+            //listItem.appendChild(buttonItem);
 
             todoList.appendChild(listItem);
         })
