@@ -1,0 +1,30 @@
+.body {
+    background-color: #f5f5f5;
+    font-family: 'Roboto', sans-serif;
+}
+
+.dark {
+    background-color: #333;
+    color: #fff;
+}
+
+.my-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-container {
+    width: 50vw;
+}
+
+.crossed {
+    text-decoration: line-through;
+}
+
+@media (max-width: 700px) {
+    .main-container {
+        width: 90vw;
+        max-width: 90vw;
+    }
+}

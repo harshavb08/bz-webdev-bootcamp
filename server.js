@@ -1,10 +1,11 @@
 require('dotenv').config();
 const userLib = require("./backend/lib/userLib");
 const songsLib = require("./backend/lib/songsLib");
+const todoLib = require("./backend/lib/todoLib");
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require("cors");
-
+const todoModel = require('./backend/models/todoModel');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,6 +35,125 @@ app.get('/musicPlayer', function(req, res) {
 app.get('/weatherApp', function(req, res) {
     res.sendFile(__dirname + '/weatherApp.html');
 });
+
+app.get('/todo', function(req, res) {
+    res.sendFile(__dirname + '/todo.html');
+});
+
+app.get("/api/todos", function(req, res) {
+    todoLib.getAllTodos(function(err, todos) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+                data: null
+            });
+        } else {
+            res.json({
+                status: "success",
+                message: "Todos retrieved successfully",
+                data: todos
+            });
+        }
+    })
+});
+
+app.post("/api/todos", function(req, res) {
+    const todo = req.body;
+    todoLib.createTodo(todo, function(err, result) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+                data: null
+            });
+        } else {
+            res.json({
+                status: "success",
+                message: "Todo created successfully",
+                data: result
+            });
+        }
+    })
+});
+
+app.put("/api/todos/:id", function(req, res) {
+    const id = req.params.id;
+    const data = req.body;
+    todoLib.updateTodoById(id, data, function(err, result) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+                data: null
+            });
+        } else {
+            res.json({
+                status: "success",
+                message: "Todo updated successfully",
+                data: result
+            });
+        }
+    })
+});
+
+
+app.delete("/api/todos/:id", function(req, res) {
+    const id = req.params.id;
+    todoLib.deleteTodoById(id, function(err, result) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+                data: null
+            });
+        } else {
+            res.json({
+                status: "success",
+                message: "Todo deleted successfully",
+                data: result
+            });
+        }
+    })
+});
+
+app.get("/api/todos/completed", function(req, res) {
+    todoLib.getAllCompletedTodos(function(err, todos) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+                data: null
+            });
+        } else {
+            res.json({
+                status: "success",
+                message: "Deleted Todos retrieved successfully",
+                data: todos
+            });
+        }
+    })
+});
+
+app.get("/api/todos/deleted", function(req, res) {
+    todoLib.getAllDeletedTodos(function(err, todos) {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err,
+                data: null
+            });
+        } else {
+            res.json({
+                status: "success",
+                message: "Deleted Todos retrieved successfully",
+                data: todos
+            });
+        }
+    })
+});
+
+
 
 
 app.use('/songsApi', songsLib)
